@@ -3,6 +3,7 @@ ini_set("display_errors", 1);
 error_reporting(E_ALL);
 //phpinfo();
 
+
 try
 {
 	// On se connecte à MySQL
@@ -17,16 +18,22 @@ catch(Exception $e)
 try
 {
 
-	$reponse = $bdd->query('SELECT ROUND(AVG(prix), 2) AS prix_moyen FROM jeux_video');
+	// Si tout va bien, on peut continuer
+	$reponse = $bdd->query('SELECT SUM(prix) AS valeur_total, possesseur FROM jeux_video GROUP BY possesseur');
 
-	echo '<h1>Prix moyen des jeux :</h1>';
+	echo '<h1>Voici la valeur totale des jeux que possède chaque personne :</h1>';
 
+	// On affiche chaque entrée une à une
 	while ($donnees = $reponse->fetch())
 	{
-		echo "Le prix moyn des jeus est de : " . $donnees['prix_moyen'] .  "€";
+	?>
+	    <p>
+	    <strong>Valeur total</strong> : <?php echo $donnees['valeur_total']; ?>€ ::: <strong>possesseur</strong> : <?php echo $donnees['possesseur']; ?>
+	   </p>
+	<?php
 	}
 
-	$reponse->closeCursor();
+	$reponse->closeCursor(); // Termine le traitement de la requête
 }
 catch (Exception $e)
 {
@@ -35,5 +42,3 @@ catch (Exception $e)
 }
 
 ?>
-
-

@@ -17,7 +17,7 @@ catch(Exception $e)
 
 // Si tout va bien, on peut continuer
 
-$reponse = $bdd->query('SELECT nom, prix FROM jeux_video ORDER BY prix');
+$reponse = $bdd->query('SELECT nom, prix FROM jeux_video ORDER BY prix DESC');
 
 // On affiche chaque entrée une à une
 while ($donnees = $reponse->fetch())

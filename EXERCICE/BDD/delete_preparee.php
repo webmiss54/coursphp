@@ -3,6 +3,8 @@ ini_set("display_errors", 1);
 error_reporting(E_ALL);
 //phpinfo();
 
+$nom_possesseur = "Michel";
+
 try
 {
 	// On se connecte à MySQL
@@ -14,24 +16,25 @@ catch(Exception $e)
     die('Erreur : '.$e->getMessage());
 }
 
-try
-{
-	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj FROM jeux_video');
+try {
 
-	echo '<h1>Voici la liste des jeux en lettres majuscules :</h1>';
+	//$nb_modifs = $bdd->exec('DELETE FROM jeux_video WHERE possesseur = \'Michel\'');
 
-	while ($donnees = $reponse->fetch())
-	{
-		echo $donnees['nom_maj'] . '<br />';
-	}
+	$req = $bdd->prepare('DELETE FROM jeux_video WHERE possesseur = :nom_possesseur');
 
-	$reponse->closeCursor();
+	$req->execute(array(
+		'nom_possesseur' => $nom_possesseur
+		));
+
+	$nb_modifs = $req->rowCount();
+
 }
-catch (Exception $e)
-{
+catch (Exception $e) {
 	// En cas d'erreur, on affiche un message et on arrête tout
     die('Erreur : '.$e->getMessage());	
 }
+
+echo $nb_modifs . ' entrées ont été modifiées !';
 
 ?>
 

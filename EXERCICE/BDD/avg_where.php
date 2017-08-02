@@ -16,14 +16,15 @@ catch(Exception $e)
 
 try
 {
-	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj FROM jeux_video');
 
-	echo '<h1>Voici la liste des jeux en lettres majuscules :</h1>';
+	$reponse = $bdd->query("SELECT AVG(prix) AS prix_moyen FROM jeux_video WHERE possesseur='Patrick'");
+	//$reponse = $bdd->query("SELECT ROUND(AVG(prix), 2) AS prix_moyen FROM jeux_video WHERE possesseur='Patrick'");
 
-	while ($donnees = $reponse->fetch())
-	{
-		echo $donnees['nom_maj'] . '<br />';
-	}
+	$donnees = $reponse->fetch();
+
+	echo '<h1>Prix moyen des jeux de Patrick :</h1>';
+
+	echo $donnees['prix_moyen'] .  "€";
 
 	$reponse->closeCursor();
 }

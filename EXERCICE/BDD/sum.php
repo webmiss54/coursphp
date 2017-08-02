@@ -16,14 +16,14 @@ catch(Exception $e)
 
 try
 {
-	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj FROM jeux_video');
 
-	echo '<h1>Voici la liste des jeux en lettres majuscules :</h1>';
+	$reponse = $bdd->query("SELECT SUM(prix) AS prix_total FROM jeux_video WHERE possesseur='Patrick'");
 
-	while ($donnees = $reponse->fetch())
-	{
-		echo $donnees['nom_maj'] . '<br />';
-	}
+	$donnees = $reponse->fetch();
+
+	echo '<h1>Valeur totale des jeux de Patrick :</h1>';
+
+	echo $donnees['prix_total'] .  "€";
 
 	$reponse->closeCursor();
 }

@@ -3,6 +3,9 @@ ini_set("display_errors", 1);
 error_reporting(E_ALL);
 //phpinfo();
 
+$new_possesseur = "Florent";
+$nom_possesseur = "Michel";
+
 try
 {
 	// On se connecte à MySQL
@@ -14,25 +17,20 @@ catch(Exception $e)
     die('Erreur : '.$e->getMessage());
 }
 
-try
-{
-	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj FROM jeux_video');
+try {
 
-	echo '<h1>Voici la liste des jeux en lettres majuscules :</h1>';
+	$nb_modifs = $bdd->exec('UPDATE jeux_video SET date_enregistrement = FROM_UNIXTIME(FLOOR(RAND()*UNIX_TIMESTAMP()))');
+	//$nb_modifs = $bdd->exec('UPDATE jeux_video SET date_enregistrement = NOW()');
 
-	while ($donnees = $reponse->fetch())
-	{
-		echo $donnees['nom_maj'] . '<br />';
-	}
-
-	$reponse->closeCursor();
 }
-catch (Exception $e)
-{
+catch (Exception $e) {
 	// En cas d'erreur, on affiche un message et on arrête tout
     die('Erreur : '.$e->getMessage());	
 }
 
+echo $nb_modifs . ' entrées ont été modifiées !';
+
 ?>
+<p><a href="select_all.php">cliquez ici pour voir la liste complète</a></p>
 
 

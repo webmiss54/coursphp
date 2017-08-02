@@ -16,14 +16,12 @@ catch(Exception $e)
 
 try
 {
-	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj FROM jeux_video');
 
-	echo '<h1>Voici la liste des jeux en lettres majuscules :</h1>';
+	$reponse = $bdd->query("SELECT COUNT(DISTINCT possesseur) AS nbpossesseurs FROM jeux_video");
 
-	while ($donnees = $reponse->fetch())
-	{
-		echo $donnees['nom_maj'] . '<br />';
-	}
+	$donnees = $reponse->fetch();
+
+	echo '<h1>Nombre de propriétaires de jeux : ' . $donnees['nbpossesseurs'] . '</h1>';
 
 	$reponse->closeCursor();
 }

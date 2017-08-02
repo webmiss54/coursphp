@@ -14,14 +14,25 @@ catch(Exception $e)
     die('Erreur : '.$e->getMessage());
 }
 
-$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj, possesseur, console, prix FROM jeux_video');
-
-while ($donnees = $reponse->fetch())
+try
 {
-	echo $donnees['nom_maj'] . ' de ' . $donnees['possesseur'] . ' pour ' . $donnees['console'] . ' vaut ' . $donnees['prix'] . '€<br />';
-}
 
-$reponse->closeCursor();
+	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj, possesseur, console, prix FROM jeux_video');
+
+	echo '<h1>Voici la liste des jeux en lettres minuscules :</h1>';
+
+	while ($donnees = $reponse->fetch())
+	{
+		echo $donnees['nom_maj'] . ' de ' . $donnees['possesseur'] . ' pour ' . $donnees['console'] . ' vaut ' . $donnees['prix'] . '€<br />';
+	}
+
+	$reponse->closeCursor();
+}
+catch (Exception $e)
+{
+	// En cas d'erreur, on affiche un message et on arrête tout
+    die('Erreur : '.$e->getMessage());	
+}
 
 ?>
 

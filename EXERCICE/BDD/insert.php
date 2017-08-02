@@ -19,4 +19,7 @@ $bdd->exec('INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_
 
 echo 'Le jeu a bien été ajouté !';
 
+?>
+<p><a href="select_all.php">cliquez ici pour voir la liste complète</a></p>
+
 

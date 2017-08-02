@@ -14,13 +14,25 @@ catch(Exception $e)
     die('Erreur : '.$e->getMessage());
 }
 
-$reponse = $bdd->query('SELECT AVG(prix) AS prix_moyen FROM jeux_video');
+try
+{
 
-$donnees = $reponse->fetch();
+	$reponse = $bdd->query('SELECT AVG(prix) AS prix_moyen FROM jeux_video');
+	//$reponse = $bdd->query('SELECT ROUND(AVG(prix), 0) AS prix_moyen FROM jeux_video');
 
-echo $donnees['prix_moyen'];
+	$donnees = $reponse->fetch();
 
-$reponse->closeCursor();
+	echo '<h1>Prix moyen des jeux :</h1>';
+
+	echo $donnees['prix_moyen'] .  "€";
+
+	$reponse->closeCursor();
+}
+catch (Exception $e)
+{
+	// En cas d'erreur, on affiche un message et on arrête tout
+    die('Erreur : '.$e->getMessage());	
+}
 
 ?>
 

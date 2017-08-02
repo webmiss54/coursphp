@@ -3,6 +3,9 @@ ini_set("display_errors", 1);
 error_reporting(E_ALL);
 //phpinfo();
 
+$new_possesseur = "Florent";
+$nom_possesseur = "Michel";
+
 try
 {
 	// On se connecte à MySQL
@@ -14,21 +17,25 @@ catch(Exception $e)
     die('Erreur : '.$e->getMessage());
 }
 
-$req = $bdd->prepare('UPDATE jeux_video SET possesseur = :newpossesseur WHERE possesseur = :nom_possesseur');
-$req->execute(array(
-	'newpossesseur' => "Florent",
-	'nom_possesseur' => "Michel"
-	));
+try {
 
-/*$req = $bdd->prepare('UPDATE jeux_video SET prix = :nvprix, nbre_joueurs_max = :nv_nb_joueurs WHERE nom = :nom_jeu');
-$req->execute(array(
-	'nvprix' => $nvprix,
-	'nv_nb_joueurs' => $nv_nb_joueurs,
-	'nom_jeu' => $nom_jeu
-	));*/
+	$req = $bdd->prepare('UPDATE jeux_video SET possesseur = :new_possesseur WHERE possesseur = :nom_possesseur');
+	$req->execute(array(
+		'new_possesseur' => $new_possesseur,
+		'nom_possesseur' => $nom_possesseur
+		));
 
-echo 'Les entrées ont été modifiées !';
+	$nb_modifs = $req->rowCount();
+
+}
+catch (Exception $e) {
+	// En cas d'erreur, on affiche un message et on arrête tout
+    die('Erreur : '.$e->getMessage());	
+}
+
+echo $nb_modifs . ' entrées ont été modifiées !';
 
 ?>
+<p><a href="select_all.php">cliquez ici pour voir la liste complète</a></p>
 
 

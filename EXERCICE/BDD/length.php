@@ -16,13 +16,14 @@ catch(Exception $e)
 
 try
 {
-	$reponse = $bdd->query('SELECT UPPER(nom) AS nom_maj FROM jeux_video');
 
-	echo '<h1>Voici la liste des jeux en lettres majuscules :</h1>';
+	$reponse = $bdd->query('SELECT LENGTH(nom) AS longueur_nom, nom FROM jeux_video');
+
+	echo '<h1>Nombre de caractères de chaque jeux :</h1>';
 
 	while ($donnees = $reponse->fetch())
 	{
-		echo $donnees['nom_maj'] . '<br />';
+		echo "Le jeu : " . $donnees['nom'] . ' comporte ' . $donnees['longueur_nom'] . ' caractères<br />';
 	}
 
 	$reponse->closeCursor();
